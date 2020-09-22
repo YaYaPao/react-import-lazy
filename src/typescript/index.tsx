@@ -1,20 +1,47 @@
-// this is the usage with Typescript
-// you can config the main in package.json to compile current file🍄
-import React from 'react'
-import { NPMTemplateProps } from '../../index.d'
+import React, { Suspense } from 'react'
+import { importProps, AsyncComponentState } from '../../index.d'
 
-export default class NPMTemplate extends React.Component<
-  NPMTemplateProps,
-  any
-> {
-  constructor(props: NPMTemplateProps) {
-    super(props)
-    this.state = {
-      name: "hello world"
+export function lazyImport(props: importProps) {
+  const { action, loading } = props
+  const LazyComponent = React.lazy(() => action as any)
+
+  return (porps: any) => {
+    return (
+      <div>
+        <Suspense fallback={loading || <div>Loading...</div>}>
+          <LazyComponent {...porps} />
+        </Suspense>
+      </div>
+    )
+  }
+}
+
+export function AsyncImport(props: importProps) {
+  const { action, loading } = props
+  class AsyncComponent extends React.Component<{}, AsyncComponentState> {
+    constructor(props: any) {
+      super(props)
+      this.state = {
+        component: null,
+      }
+    }
+
+    componentDidMount() {
+      action &&
+        action.then((cm: any) => {
+          this.setState({
+            component: cm.default ? cm.default : cm,
+          })
+        })
+    }
+
+    render() {
+      if (this.state.component) {
+        const Current = this.state.component
+        return <Current {...this.props} />
+      }
+      return loading || <div>loading</div>
     }
   }
-
-  render() {
-    return <div>{this.props.name}</div>
-  }
+  return AsyncComponent
 }

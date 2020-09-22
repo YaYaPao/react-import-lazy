@@ -1,16 +1,31 @@
 {
-  "name": "npm-template",
+  "name": "react-import-lazy",
   "version": "1.0.0",
-  "description": "make some descriptions here!",
+  "description": "Easy code splitting of React!",
   "main": "index.js",
   "types": "index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "keywords": [
     "[\"react\"",
-    "\"error\"",
-    "\"catch\"]"
+    "\"import\"",
+    "\"async\"",
+    "\"lazy\"]"
   ],
-  "author": "Y-lonelY",
-  "license": "MIT",
+  "author": {
+    "name": "Y-lonelY",
+    "email": "luckyyoung666@gmail.com"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Y-lonelY/react-import-lazy/issues"
+  },
+  "homepage": "https://github.com/Y-lonelY/react-import-lazy#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Y-lonelY/react-import-lazy.git"
+  },
   "dependencies": {
     "@types/react-dom": "^16.9.0",
     "typescript": "~3.7.2"
