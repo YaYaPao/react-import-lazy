@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react'
 import { importProps, AsyncComponentState } from '../../index.d'
 
+// based on React lazy() and Suspense
 export function lazyImport(props: importProps) {
   const { action, loading } = props
   const LazyComponent = React.lazy(() => action as any)
@@ -16,6 +17,7 @@ export function lazyImport(props: importProps) {
   }
 }
 
+// based on import().then()
 export function AsyncImport(props: importProps) {
   const { action, loading } = props
   class AsyncComponent extends React.Component<{}, AsyncComponentState> {
@@ -40,7 +42,7 @@ export function AsyncImport(props: importProps) {
         const Current = this.state.component
         return <Current {...this.props} />
       }
-      return loading || <div>loading</div>
+      return loading || <div>loading...</div>
     }
   }
   return AsyncComponent

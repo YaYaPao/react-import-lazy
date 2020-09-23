@@ -1,10 +1,10 @@
 import React from 'react'
 
-export interface NPMTemplateProps extends React.Props<NPMTemplate> {
-  name: string
+export interface importProps {
+  action: any
+  loading?: React.ElementType | React.ReactNode
 }
 
-
-declare class NPMTemplate extends React.Component<NPMTemplateProps, any> {}
-
-export default NPMTemplate
+export interface AsyncComponentState {
+  component?: React.ElementType | null
+}

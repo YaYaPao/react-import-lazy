@@ -1,5 +1,7 @@
 'use strict';
 
+Object.defineProperty(exports, '__esModule', { value: true });
+
 var React = require('react');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
@@ -35,19 +37,59 @@ function __extends(d, b) {
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 }
 
-var NPMTemplate = /** @class */ (function (_super) {
-    __extends(NPMTemplate, _super);
-    function NPMTemplate(props) {
-        var _this = _super.call(this, props) || this;
-        _this.state = {
-            name: "hello world"
-        };
-        return _this;
-    }
-    NPMTemplate.prototype.render = function () {
-        return React__default['default'].createElement("div", null, this.props.name);
+var __assign = function() {
+    __assign = Object.assign || function __assign(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+        }
+        return t;
     };
-    return NPMTemplate;
-}(React__default['default'].Component));
+    return __assign.apply(this, arguments);
+};
 
-module.exports = NPMTemplate;
+// based on React lazy() and Suspense
+function lazyImport(props) {
+    var action = props.action, loading = props.loading;
+    var LazyComponent = React__default['default'].lazy(function () { return action; });
+    return function (porps) {
+        return (React__default['default'].createElement("div", null,
+            React__default['default'].createElement(React.Suspense, { fallback: loading || React__default['default'].createElement("div", null, "Loading...") },
+                React__default['default'].createElement(LazyComponent, __assign({}, porps)))));
+    };
+}
+// based on import().then()
+function AsyncImport(props) {
+    var action = props.action, loading = props.loading;
+    var AsyncComponent = /** @class */ (function (_super) {
+        __extends(AsyncComponent, _super);
+        function AsyncComponent(props) {
+            var _this = _super.call(this, props) || this;
+            _this.state = {
+                component: null,
+            };
+            return _this;
+        }
+        AsyncComponent.prototype.componentDidMount = function () {
+            var _this = this;
+            action &&
+                action.then(function (cm) {
+                    _this.setState({
+                        component: cm.default ? cm.default : cm,
+                    });
+                });
+        };
+        AsyncComponent.prototype.render = function () {
+            if (this.state.component) {
+                var Current = this.state.component;
+                return React__default['default'].createElement(Current, __assign({}, this.props));
+            }
+            return loading || React__default['default'].createElement("div", null, "loading...");
+        };
+        return AsyncComponent;
+    }(React__default['default'].Component));
+    return AsyncComponent;
+}
+
+exports.AsyncImport = AsyncImport;
+exports.lazyImport = lazyImport;
