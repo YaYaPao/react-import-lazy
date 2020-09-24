@@ -1,12 +1,19 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
-import App from './App'
+// import App from './App'
+import { LazyImport, AsyncImport } from 'react-import-lazy'
 import * as serviceWorker from './serviceWorker'
+
+const Test = AsyncImport({
+  action: import('./App'),
+  loading: <span>loading</span>
+})
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    {<Test />}
+    {/* <App /> */}
   </React.StrictMode>,
   document.getElementById('root')
 )

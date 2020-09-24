@@ -49,7 +49,7 @@ var __assign = function() {
 };
 
 // based on React lazy() and Suspense
-function lazyImport(props) {
+function LazyImport(props) {
     var action = props.action, loading = props.loading;
     var LazyComponent = React__default['default'].lazy(function () { return action; });
     return function (porps) {
@@ -92,4 +92,4 @@ function AsyncImport(props) {
 }
 
 exports.AsyncImport = AsyncImport;
-exports.lazyImport = lazyImport;
+exports.LazyImport = LazyImport;

@@ -2,7 +2,7 @@ import React, { Suspense } from 'react'
 import { importProps, AsyncComponentState } from '../../index.d'
 
 // based on React lazy() and Suspense
-export function lazyImport(props: importProps) {
+export function LazyImport(props: importProps) {
   const { action, loading } = props
   const LazyComponent = React.lazy(() => action as any)
 
